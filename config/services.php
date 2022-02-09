@@ -35,10 +35,11 @@ return [
         'price' => 2000,
     ],
     'discount' => [
+        'activated'=>true,
         '%' => 15,
     ],
     'coupon' => [
-        'code' => 'RWB',
+        'activated' => true,
         '%' => 10
     ]
 ];
