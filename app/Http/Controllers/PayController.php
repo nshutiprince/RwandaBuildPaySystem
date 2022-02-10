@@ -10,12 +10,12 @@ class PayController extends Controller
 {
     /**
      * @var PaymentService $paymentService
-     * an instance of PaymentService
+     * an object of PaymentService
      */
     private PaymentService $paymentService;
 
     /**
-     * In charge of creating an instance of PaymentService
+     * In charge of creating an object of PaymentService
      */
     public function __construct()
     {
@@ -23,7 +23,7 @@ class PayController extends Controller
     }
 
     /**
-     * uses the PaymentService instance to access functions
+     * uses the PaymentService object to access functions
      */
     public function pay()
     {

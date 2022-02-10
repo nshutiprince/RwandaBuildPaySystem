@@ -36,10 +36,11 @@ return [
     ],
     'discount' => [
         'activated'=>true,
-        '%' => 15,
+        '%' => 15/100,
     ],
     'coupon' => [
         'activated' => true,
-        '%' => 10
-    ]
+        '%' => 10/100
+    ],
+    'vat%' => 18/100,
 ];

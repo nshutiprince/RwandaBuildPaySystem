@@ -27,7 +27,7 @@ class PaymentService
     /**
      * @var float vat tax
      */
-    public float  $vat;
+    public float  $vatPrice;
 
     /**
      * @var int quantity
@@ -54,6 +54,12 @@ class PaymentService
     public array  $product;
 
     /**
+     * @var float vat
+     * contains vat percentage
+     */
+    public float  $vat;
+
+    /**
      * In charge of accessing all needed variables
      */
     public function __construct()
@@ -61,6 +67,7 @@ class PaymentService
         $this->product = config('services.product');
         $this->discount = config('services.discount');
         $this->coupon = config('services.coupon');
+        $this->vat = config('services.vat%');
     }
 
     /**
@@ -112,7 +119,7 @@ class PaymentService
     public function calculateDiscount()
     {
         if ($this->discount['activated']) {
-            $this->discountPrice = ($this->totalPrice * $this->discount['%']) / 100;
+            $this->discountPrice = $this->totalPrice * $this->discount['%'];
             $this->netAmount -= $this->discountPrice;
         }
 
@@ -125,7 +132,7 @@ class PaymentService
     public function calculateCoupon()
     {
         if ($this->coupon['activated']) {
-            $this->couponDiscount = ($this->totalPrice * $this->coupon['%']) / 100;
+            $this->couponDiscount = $this->totalPrice * $this->coupon['%'];
             $this->netAmount -= $this->couponDiscount;
         }
 
@@ -137,7 +144,7 @@ class PaymentService
      */
     public function calculateVat()
     {
-        $this->vat = ($this->netAmount * 18) / 100;
+        $this->vatPrice = $this->netAmount * $this->vat;
         return $this;
     }
 
@@ -146,7 +153,7 @@ class PaymentService
      */
     public function calculateNetAmount()
     {
-        $this->netAmount += $this->vat;
+        $this->netAmount += $this->vatPrice;
         return $this;
     }
 
@@ -156,14 +163,14 @@ class PaymentService
     public function display()
     {
         $arr = [
-            'product name' => $this->product['name'],
+            'product_name' => $this->product['name'],
             'quantity' => $this->quantity,
-            'unity price' => $this->product['price'],
-            'total price' => $this->totalPrice,
-            'discount Price' => $this->discountPrice,
-            'coupon discount' => $this->couponDiscount,
-            'Vat' => $this->vat,
-            'pay price' => $this->netAmount,
+            'unity_price' => $this->product['price'],
+            'total_price' => $this->totalPrice,
+            'discount_Price' => $this->discountPrice,
+            'coupon_discount' => $this->couponDiscount,
+            'vat_price' => $this->vatPrice,
+            'pay_price' => $this->netAmount,
         ];
         dd($arr);
     }
