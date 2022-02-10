@@ -8,12 +8,23 @@ use Illuminate\Support\Facades\Cache as FacadesCache;
 
 class PayController extends Controller
 {
-    private $paymentService;
+    /**
+     * @var PaymentService $paymentService
+     * an instance of PaymentService
+     */
+    private PaymentService $paymentService;
+
+    /**
+     * In charge of creating an instance of PaymentService
+     */
     public function __construct()
     {
         $this->paymentService = new PaymentService();
     }
 
+    /**
+     * uses the PaymentService instance to access functions
+     */
     public function pay()
     {
         $this->paymentService->setQuantity(4);
