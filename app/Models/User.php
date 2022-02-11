@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'is_member',
+        'royalty_points',
     ];
 
     /**
@@ -41,4 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+
+    public function isAdmin(): Bool
+    {
+        return in_array(auth()->user()->role_id, [Role::IS_ADMIN]);
+    }
+    public function isSuperAdmin(): Bool
+    {
+        return in_array(auth()->user()->role_id, [Role::IS_SUPER_ADMIN]);
+
+    }
 }
