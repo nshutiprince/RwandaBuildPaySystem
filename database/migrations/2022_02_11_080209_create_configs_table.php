@@ -16,7 +16,7 @@ class CreateConfigsTable extends Migration
         Schema::create('configs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('value',8,2)->nullable();
+            $table->float('value',8,2);
             $table->timestamps();
         });
     }
