@@ -27,7 +27,6 @@ class PayController extends Controller
      */
     public function pay()
     {
-        $this->paymentService->setQuantity(4);
         $this->paymentService->computeNetAmount();
     }
 }
