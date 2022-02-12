@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Config;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+
 class PaymentService
 {
     /**
@@ -36,22 +40,22 @@ class PaymentService
     public int    $quantity;
 
     /**
-     * @var array discount
+     * @var float discount
      * contains all discount attributes from services.php
      */
-    public array  $discount;
+    public float  $discount;
 
     /**
-     * @var array coupon
+     * @var float coupon
      * contains all coupon attributes from services.php
      */
-    public array  $coupon;
+    public float  $coupon;
 
     /**
-     * @var array product
-     * contains all product attributes from services.php
+     * @var Product product
+     * contains all product attributes from the database
      */
-    public array  $product;
+    public Product  $product;
 
     /**
      * @var float vat
@@ -59,15 +63,20 @@ class PaymentService
      */
     public float  $vat;
 
+    public RoyaltyRewardService  $royaltyRewardService;
+
+
     /**
      * In charge of accessing all needed variables
      */
     public function __construct()
     {
-        $this->product = config('services.product');
-        $this->discount = config('services.discount');
-        $this->coupon = config('services.coupon');
-        $this->vat = config('services.vat%');
+        $this->product = Product::first();
+        $this->discount = Config::where('name', 'discount')->pluck('value')->first();
+        $this->coupon = Config::where('name', 'coupon')->pluck('value')->first();
+        $this->vat = Config::where('name', 'vat')->pluck('value')->first();
+        $this->quantity = 4;
+        $this->discountPrice=0;
     }
 
     /**
@@ -75,7 +84,7 @@ class PaymentService
      */
     public function computeNetAmount()
     {
-        $this->checkQuantity()
+        $this
             ->calculateTotalPrice()
             ->calculateDiscount()
             ->calculateCoupon()
@@ -85,30 +94,11 @@ class PaymentService
     }
 
     /**
-     * In charge of setting the quantity
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-    }
-
-    /**
-     * In charge of checking the quantity by comparing the one in the database and the one the user adds
-     */
-    public function checkQuantity()
-    {
-        if ($this->quantity > $this->product['quantity']) {
-            dd('quantity exceeds the available');
-        }
-        return $this;
-    }
-
-    /**
      * In charge of calculating the total price by multiplying the quantity and the unity price
      */
     public function calculateTotalPrice()
     {
-        $this->totalPrice = $this->product['price'] * $this->quantity;
+        $this->totalPrice = $this->product->price * $this->quantity;
         $this->netAmount = $this->totalPrice;
         return $this;
     }
@@ -118,8 +108,8 @@ class PaymentService
      */
     public function calculateDiscount()
     {
-        if ($this->discount['activated']) {
-            $this->discountPrice = $this->totalPrice * $this->discount['%'];
+        if ($this->discount && Auth::user()->is_member) {
+            $this->discountPrice = $this->totalPrice * $this->discount;
             $this->netAmount -= $this->discountPrice;
         }
 
@@ -131,8 +121,8 @@ class PaymentService
      */
     public function calculateCoupon()
     {
-        if ($this->coupon['activated']) {
-            $this->couponDiscount = $this->totalPrice * $this->coupon['%'];
+        if ($this->coupon) {
+            $this->couponDiscount = $this->totalPrice * $this->coupon;
             $this->netAmount -= $this->couponDiscount;
         }
 
@@ -154,6 +144,11 @@ class PaymentService
     public function calculateNetAmount()
     {
         $this->netAmount += $this->vatPrice;
+        $this->royaltyRewardService = new RoyaltyRewardService($this->netAmount);
+        $this->royaltyRewardService
+            ->applyRoyaltyPrice()
+            ->addRoyaltyPoint();
+        $this->netAmount = $this->royaltyRewardService->netAmount;
         return $this;
     }
 
@@ -163,13 +158,14 @@ class PaymentService
     public function display()
     {
         $arr = [
-            'product_name' => $this->product['name'],
+            'product_name' => $this->product->name,
             'quantity' => $this->quantity,
-            'unity_price' => $this->product['price'],
+            'unity_price' => $this->product->price,
             'total_price' => $this->totalPrice,
             'discount_Price' => $this->discountPrice,
             'coupon_discount' => $this->couponDiscount,
             'vat_price' => $this->vatPrice,
+            'royalty_amount' => $this->royaltyRewardService->royaltyAmount,
             'pay_price' => $this->netAmount,
         ];
         dd($arr);

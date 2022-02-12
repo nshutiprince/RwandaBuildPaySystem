@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Services\PercentageService;
 use Illuminate\Foundation\Http\FormRequest;
+use SebastianBergmann\CodeCoverage\Percentage;
 
 class ConfigRequest extends FormRequest
 {
@@ -15,7 +17,16 @@ class ConfigRequest extends FormRequest
     {
         return [
             'name' => ['required','string'],
-            'value' =>['numeric']
+            'value' =>['required','numeric']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $value = (new PercentageService())->convertToPercentage($this->value);
+
+        $this->merge([
+            'value' => $value,
+        ]);
     }
 }
