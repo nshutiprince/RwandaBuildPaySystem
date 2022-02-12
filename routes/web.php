@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PayController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +19,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+//Routes for the admin
+Route::group(['middleware' => 'is_admin'], function () {
+    Route::resource('configs', 'App\Http\Controllers\ConfigController');
+});
+
+//Routes for the super admin
+Route::group(['middleware' => 'is_super_admin'], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::put('users/{user}', [UserController::class,'update']);
+});
+
+//Route for payment
+Route::get('/pay',[PayController::class,'pay'])->middleware('auth');
