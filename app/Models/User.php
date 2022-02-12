@@ -45,16 +45,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * returns the role relationship
+     */
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-
+    /**
+     * returns true if user is admin and false if not
+     */
     public function isAdmin(): Bool
     {
         return in_array(auth()->user()->role_id, [Role::IS_ADMIN]);
     }
+
+    /**
+     * returns true if user is super admin and false if not
+     */
     public function isSuperAdmin(): Bool
     {
         return in_array(auth()->user()->role_id, [Role::IS_SUPER_ADMIN]);

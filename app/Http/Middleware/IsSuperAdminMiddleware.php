@@ -22,7 +22,7 @@ class IsSuperAdminMiddleware
             return redirect(route('login'));
         }
 
-        // Check if user has admin role
+        // Check if user has super admin role
         if (!Auth::user()->isSuperAdmin()) {
             abort(403);
         }
