@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\login\MurugoLoginController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/murugoLogin',[MurugoLoginController::class, 'redirectToMurugo']);
+Route::get('/callback', [MurugoLoginController::class, 'murugoCallback']);
+
 
 
 require __DIR__ . '/auth.php';
