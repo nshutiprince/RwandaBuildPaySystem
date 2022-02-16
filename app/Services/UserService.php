@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class UserService
 {
     /**
-     * In charge of updating the user royalty points
+     * @param $points
+     * In charge of updating the user loyalty points
      */
-    public function updateUserRoyaltyPoints($points){
+    public function updateUserLoyaltyPoints($points){
         Auth::user()->update([
-            'royalty_points'=>$points
+            'loyalty_points'=>$points
         ]);
         return $this;
     }

@@ -16,8 +16,8 @@ class AddsRoleIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('role_id')->default(Role::IS_USER)->after('id');
-            $table->integer('royalty_points')->default(0)->after('password');
-            $table->boolean('is_member')->default(false)->after('royalty_points');
+            $table->integer('loyalty_points')->default(0)->after('password');
+            $table->boolean('is_member')->default(false)->after('loyalty_points');
         });
     }
 
@@ -30,7 +30,7 @@ class AddsRoleIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             Schema::dropColumns('role_id');
-            Schema::dropColumns('royalty_points');
+            Schema::dropColumns('loyalty_points');
             Schema::dropColumns('is_member');
         });
     }

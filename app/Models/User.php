@@ -23,7 +23,7 @@ class User extends Authenticatable
         'password',
         'role_id',
         'is_member',
-        'royalty_points',
+        'loyalty_points',
     ];
 
     /**

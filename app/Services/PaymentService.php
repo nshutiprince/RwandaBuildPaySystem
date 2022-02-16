@@ -63,7 +63,7 @@ class PaymentService
      */
     public float  $vat;
 
-    public RoyaltyRewardService  $royaltyRewardService;
+    public LoyaltyRewardService  $loyaltyRewardService;
 
 
     /**
@@ -144,11 +144,11 @@ class PaymentService
     public function calculateNetAmount()
     {
         $this->netAmount += $this->vatPrice;
-        $this->royaltyRewardService = new RoyaltyRewardService($this->netAmount);
-        $this->royaltyRewardService
-            ->applyRoyaltyPrice()
-            ->addRoyaltyPoint();
-        $this->netAmount = $this->royaltyRewardService->netAmount;
+        $this->loyaltyRewardService = new LoyaltyRewardService($this->netAmount);
+        $this->loyaltyRewardService
+            ->applyLoyaltyPrice()
+            ->addLoyaltyPoint();
+        $this->netAmount = $this->loyaltyRewardService->netAmount;
         return $this;
     }
 
@@ -165,7 +165,7 @@ class PaymentService
             'discount_Price' => $this->discountPrice,
             'coupon_discount' => $this->couponDiscount,
             'vat_price' => $this->vatPrice,
-            'royalty_amount' => $this->royaltyRewardService->royaltyAmount,
+            'loyalty_amount' => $this->loyaltyRewardService->loyaltyAmount,
             'pay_price' => $this->netAmount,
         ];
         dd($arr);

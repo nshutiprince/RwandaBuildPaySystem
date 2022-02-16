@@ -7,6 +7,7 @@ namespace App\Services;
 class PercentageService
 {
     /**
+     * @param $value
      * In charge of converting two types of percentage form to float to be saved in the database
      * @return float
      */

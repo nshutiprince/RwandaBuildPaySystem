@@ -19,6 +19,6 @@ class ConfigSeeder extends Seeder
         Config::create(['name'=>'vat','value'=>0.18]);
         Config::create(['name' => 'coupon', 'value' => 0.10]);
         Config::create(['name' => 'discount', 'value' => 0.15]);
-        Config::create(['name' => 'royalty Price', 'value' => 1500]);
+        Config::create(['name' => 'loyalty Price', 'value' => 1500]);
     }
 }

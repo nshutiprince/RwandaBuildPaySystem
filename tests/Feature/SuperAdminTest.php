@@ -16,7 +16,7 @@ class SuperAdminTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed');
-        $this->super_admin = User::first();
+        $this->superAdmin = User::first();
         $this->user = User::factory()->create(['role_id' => Role::IS_USER]);
     }
 
@@ -30,10 +30,10 @@ class SuperAdminTest extends TestCase
 
         $this->assertTrue(User::all()->count() == 2);
 
-        $response = $this->actingAs($this->super_admin)->put('/users/' . $this->user->id, [
+        $response = $this->actingAs($this->superAdmin)->put('/users/' . $this->user->id, [
             "role_id" => Role::IS_ADMIN,
             "is_member" => $this->user->is_member,
-            "royalty_points"=>10
+            "loyalty_points"=>10
         ]);
 
         $response->assertStatus(200);

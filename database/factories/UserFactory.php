@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'is_member' => true,
             'role_id' => true,
-            'royalty_points'=>0,
+            'loyalty_points'=>0,
 
         ];
     }
