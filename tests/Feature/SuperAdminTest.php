@@ -15,9 +15,9 @@ class SuperAdminTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->artisan('db:seed');
-        $this->superAdmin = User::first();
-        $this->user = User::factory()->create(['role_id' => Role::IS_USER]);
+        $this->artisan('db:seed --class=LaratrustSeeder');
+        $this->superAdmin = User::factory()->create()->attachRole(Role::IS_SUPER_ADMIN);
+        $this->user = User::factory()->create()->attachRole(Role::IS_USER);
     }
 
     /**
@@ -31,12 +31,10 @@ class SuperAdminTest extends TestCase
         $this->assertTrue(User::all()->count() == 2);
 
         $response = $this->actingAs($this->superAdmin)->put('/users/' . $this->user->id, [
-            "role_id" => Role::IS_ADMIN,
             "is_member" => $this->user->is_member,
             "loyalty_points"=>10
         ]);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('users', ['role_id' => Role::IS_ADMIN]);
     }
 }

@@ -14,7 +14,6 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'role_id' =>['required','numeric'],
             'loyalty_points'=>['required','numeric'],
             'is_member' =>['required','boolean']
         ];

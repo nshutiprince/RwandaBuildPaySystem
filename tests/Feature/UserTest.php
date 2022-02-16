@@ -17,26 +17,8 @@ class UserTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed');
-        $this->user = User::factory()->create(['role_id' => Role::IS_USER]);
-    }
-
-    /**
-     * A test to check if user can not change another user role
-     *
-     * @return void
-     */
-    public function test_user_can_not_change_another_user_role()
-    {
-        $this->withExceptionHandling();
-
-        $user = User::factory()->create(['role_id' => Role::IS_USER]);
-        $this->assertTrue(User::all()->count() == 3);
-
-        $response = $this->actingAs($this->user)->put('/users/' . $user->id, [
-            "role_id" => Role::IS_ADMIN
-        ]);
-
-        $response->assertStatus(403);
+        $this->artisan('db:seed --class=LaratrustSeeder');
+        $this->user = User::factory()->create()->attachRole(Role::IS_USER);
     }
 
     /**

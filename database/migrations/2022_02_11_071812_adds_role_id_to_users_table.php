@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +14,7 @@ class AddsRoleIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('role_id')->default(Role::IS_USER)->after('id');
+            $table->unsignedInteger('role_id')->default(1)->after('id');
             $table->integer('loyalty_points')->default(0)->after('password');
             $table->boolean('is_member')->default(false)->after('loyalty_points');
         });

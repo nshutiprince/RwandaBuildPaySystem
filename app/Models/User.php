@@ -8,9 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use RwandaBuild\MurugoAuth\Traits\MurugoAuthHelper;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
+    use LaratrustUserTrait;
     use HasApiTokens, HasFactory, Notifiable;
     use MurugoAuthHelper;
 
@@ -23,7 +25,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
         'is_member',
         'loyalty_points',
     ];
@@ -46,28 +47,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * returns the role relationship
-     */
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    /**
-     * returns true if user is admin and false if not
-     */
-    public function isAdmin(): Bool
-    {
-        return in_array(auth()->user()->role_id, [Role::IS_ADMIN]);
-    }
-
-    /**
-     * returns true if user is super admin and false if not
-     */
-    public function isSuperAdmin(): Bool
-    {
-        return in_array(auth()->user()->role_id, [Role::IS_SUPER_ADMIN]);
-    }
 }

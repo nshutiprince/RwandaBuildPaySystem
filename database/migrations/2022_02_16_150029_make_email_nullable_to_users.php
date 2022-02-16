@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +16,7 @@ class MakeEmailNullableToUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('email')->nullable()->change();
             $table->string('password')->nullable()->change();
-            $table->unsignedBigInteger('murugo_user_id')->after('id');
+            $table->unsignedBigInteger('murugo_user_id')->nullable()->after('id');
             $table->dropColumn('role_id');
         });
     }
@@ -33,7 +32,7 @@ class MakeEmailNullableToUsers extends Migration
             $table->string('email')->nullable(false)->change();
             $table->string('password')->nullable(false)->change();
             $table->dropColumn('murugo_user_id');
-            $table->unsignedInteger('role_id')->default(Role::IS_USER)->after('id');
+            $table->unsignedInteger('role_id')->default(1)->after('id');
         });
     }
 }

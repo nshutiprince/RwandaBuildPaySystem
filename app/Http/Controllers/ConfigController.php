@@ -36,7 +36,6 @@ class ConfigController extends Controller
      */
     public function store(ConfigRequest $request)
     {
-        $this->authorize('create', Config::class);
         Config::create($request->validated());
     }
 
@@ -71,7 +70,6 @@ class ConfigController extends Controller
      */
     public function update(ConfigRequest $request, Config $config)
     {
-        $this->authorize('update', $config);
         $config->update($request->validated());
     }
 
@@ -83,7 +81,6 @@ class ConfigController extends Controller
      */
     public function destroy(Config $config)
     {
-        $this->authorize('delete', $config);
         $config->delete();
     }
 }

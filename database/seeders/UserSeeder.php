@@ -22,7 +22,6 @@ class UserSeeder extends Seeder
             'id' => 1,
             'name' => env('SUPER_ADMIN_NAME'),
             'email' => env('SUPER_ADMIN_EMAIL'),
-            'role_id' => Role::IS_SUPER_ADMIN,
             'password' => Hash::make(env('SUPER_ADMIN_PASSWORD')),
             'loyalty_points' => 19
         ]);

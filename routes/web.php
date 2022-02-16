@@ -3,6 +3,7 @@
 use App\Http\Controllers\login\MurugoLoginController;
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\UserController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,12 +28,12 @@ Route::get('/callback', [MurugoLoginController::class, 'murugoCallback']);
 require __DIR__ . '/auth.php';
 
 //Routes for the admin
-Route::group(['middleware' => 'is_admin'], function () {
+Route::group(['middleware' => 'role:Role::IS_ADMIN'], function () {
     Route::resource('configs', 'App\Http\Controllers\ConfigController');
 });
 
 //Routes for the super admin
-Route::group(['middleware' => 'is_super_admin'], function () {
+Route::group(['middleware' => 'role:Role::IS_SUPER_ADMIN'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
