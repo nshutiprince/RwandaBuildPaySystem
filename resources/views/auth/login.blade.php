@@ -47,9 +47,15 @@
                     </a>
                 @endif
 
+                <x-button class="ml-3" >
+                    <a  href="{{ route('murugoLogin') }}">
+                    Murugo Login
+                    </a>
+                </x-button>
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
+
             </div>
         </form>
     </x-auth-card>

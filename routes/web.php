@@ -20,26 +20,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/murugoLogin',[MurugoLoginController::class, 'redirectToMurugo']);
-Route::get('/callback', [MurugoLoginController::class, 'murugoCallback']);
+Route::get('/murugoLogin', [MurugoLoginController::class, 'redirectToMurugo'])->name('murugoLogin');
+Route::get('/callback', [MurugoLoginController::class, 'murugoCallback'])->name('callback');
 
 
 
 require __DIR__ . '/auth.php';
 
 //Routes for the admin
-Route::group(['middleware' => 'role:Role::IS_ADMIN'], function () {
+Route::group(['middleware' => 'role:administrator'], function () {
     Route::resource('configs', 'App\Http\Controllers\ConfigController');
 });
 
 //Routes for the super admin
-Route::group(['middleware' => 'role:Role::IS_SUPER_ADMIN'], function () {
+Route::group(['middleware' => 'role:superadministrator'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::put('users/{user}', [UserController::class,'update']);
+    Route::put('users/{user}', [UserController::class, 'update']);
 });
 
 //Route for payment
-Route::get('/pay',[PayController::class,'pay'])->middleware('auth');
+Route::middleware(['middleware' => 'role:user'])->prefix('user')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('user.dashboard');
+    })->name('userDashboard');
+
+    Route::get('/pay', [PayController::class, 'pay'])->name('pay')->middleware('role:user');
+});

@@ -17,8 +17,9 @@ class AdminTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed');
-        $this->user = User::factory()->create(['role_id' => Role::IS_USER]);
-        $this->admin = User::factory()->create(['role_id' => Role::IS_ADMIN]);
+        $this->artisan('db:seed --class=LaratrustSeeder');
+        $this->user = User::factory()->create()->attachRole(Role::IS_USER);
+        $this->admin = User::factory()->create()->attachRole(Role::IS_ADMIN);
     }
 
     /**
@@ -33,7 +34,7 @@ class AdminTest extends TestCase
         $this->assertTrue(User::all()->count() == 3);
 
         $response = $this->actingAs($this->admin)->put('/users/' . $this->user->id, [
-            "role_id" => Role::IS_ADMIN
+            "role_id" => [Role::IS_ADMIN]
         ]);
 
         $response->assertStatus(403);

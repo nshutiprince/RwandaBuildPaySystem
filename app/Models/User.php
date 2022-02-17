@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
         'is_member',
         'loyalty_points',
+        'murugo_user_id'
     ];
 
     /**
