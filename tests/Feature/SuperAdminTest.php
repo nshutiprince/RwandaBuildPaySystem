@@ -33,10 +33,10 @@ class SuperAdminTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->put('/users/' . $this->user->id, [
             "is_member" => $this->user->is_member,
             "loyalty_points"=>10,
-            "role_id" =>[Role::IS_ADMIN,Role::IS_SUPER_ADMIN]
+            "roles" =>[Role::IS_ADMIN,Role::IS_SUPER_ADMIN]
         ]);
 
         $response->assertStatus(200);
-        $this->assertTrue($this->user->hasRole(['administrator', 'superadministrator']));
+        $this->assertTrue($this->user->hasRole([Role::IS_ADMIN, Role::IS_SUPER_ADMIN]));
     }
 }

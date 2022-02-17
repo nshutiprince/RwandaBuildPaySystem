@@ -29,16 +29,20 @@ class MurugoLoginController extends Controller
     public function murugoCallback()
     {
         $murugoUser = MurugoAuth::user();
-        // accessing the related user
+        // accessing the related user in our databse
         $user = $murugoUser->user;
         if (!$user) {
-            User::create([
+            // register the murugo user to our databse
+            $user = $murugoUser->user()->create([
                 'name' => $murugoUser->name,
-                'murugo_user_id' => $murugoUser->id
             ]);
+
+            //Assign use role to our user
             $user->attachRole(Role::IS_USER);
         }
+        //Authenticate the murugo user to our service
         Auth::login($user);
-        return redirect()->route('userDashboard');
+        //redirect user to his dashboard
+        return redirect()->route('user.dashboard');
     }
 }

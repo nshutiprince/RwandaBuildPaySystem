@@ -32,7 +32,7 @@ return [
     'murugo' => [
         'client_id' => env('MURUGO_CLIENT_ID'),
         'client_secret' => env('MURUGO_CLIENT_SECRET'),
-        'redirect' => env('APP_REDIRECT_URL', 'YOUR LOGIN REDIRECT URL'),
+        'redirect' => env('APP_REDIRECT_URL', 'http://127.0.0.1:8000/login'),
         'murugo_url' => env('MURUGO_URL', 'MURUGO_URL'),
         'murugo_app_key' => env('MURUGO_APP_KEY'),
         'disable_user_session' => true

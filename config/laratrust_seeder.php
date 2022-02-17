@@ -34,7 +34,7 @@ return [
     ],
     'descriptions_map' => [
         'superadministrator' => 'super administrator is in charge of assign role',
-        'administrator' => 'administrator is in charge of creating projects',
-        'user' => 'user is in charge of creating tasks and workLogs'
+        'administrator' => 'administrator is in charge of creating configs',
+        'user' => 'user is in charge of making payment'
     ],
 ];

@@ -48,7 +48,7 @@
                 @endif
 
                 <x-button class="ml-3" >
-                    <a  href="{{ route('murugoLogin') }}">
+                    <a  href="{{ route('murugo.login') }}">
                     Murugo Login
                     </a>
                 </x-button>

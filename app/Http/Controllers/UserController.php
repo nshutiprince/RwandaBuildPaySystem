@@ -72,7 +72,7 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->validated());
-        $user->attachRoles($request->validated()["role_id"]);
+        $user->attachRoles($request->validated()["roles"]);
     }
 
     /**

@@ -17,7 +17,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @else
-                    <x-nav-link :href="route('userDashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @endif

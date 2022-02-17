@@ -34,7 +34,7 @@ class AdminTest extends TestCase
         $this->assertTrue(User::all()->count() == 3);
 
         $response = $this->actingAs($this->admin)->put('/users/' . $this->user->id, [
-            "role_id" => [Role::IS_ADMIN]
+            "roles" => [Role::IS_ADMIN]
         ]);
 
         $response->assertStatus(403);
