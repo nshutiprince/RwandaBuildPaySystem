@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\login\MurugoLoginController;
 use App\Http\Controllers\PayController;
+use App\Http\Controllers\SiteServiceController;
 use App\Http\Controllers\UserController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
@@ -49,3 +50,14 @@ Route::middleware(['middleware' => 'role:'.Role::IS_USER])->prefix('user')->grou
 
     Route::get('/pay', [PayController::class, 'pay'])->name('pay');
 });
+
+Route::get('/get-user', [SiteServiceController::class, 'getUser']);
+Route::get('/search-location', [SiteServiceController::class, 'searchLocation']);
+Route::get('/search-oraganization', [SiteServiceController::class, 'searchOraganization']);
+Route::get('/get-approved-location', [SiteServiceController::class, 'getApprovedLocation']);
+Route::get('/get-approved-oraganization', [SiteServiceController::class, 'getApprovedOraganization']);
+Route::get('/add-location', [SiteServiceController::class, 'addLocation']);
+
+
+
+

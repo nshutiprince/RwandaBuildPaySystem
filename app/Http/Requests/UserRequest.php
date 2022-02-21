@@ -17,7 +17,7 @@ class UserRequest extends FormRequest
             'loyalty_points'=>['required','numeric'],
             'is_member' =>['required','boolean'],
             'roles' => ['required','array'],
-            'role.*' => ['required', 'string']
+            'roles.*' => ['required', 'string']
         ];
     }
 }

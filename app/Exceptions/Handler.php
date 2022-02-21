@@ -13,7 +13,10 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        OAuthServerException::class,
+        Illuminate\Auth\AuthenticationException::class,
+        Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
     ];
 
     /**
